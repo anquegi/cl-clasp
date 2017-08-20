@@ -1,0 +1,180 @@
+anova-classes.lisp
+
+
+class-defs.lisp
+
+
+confidence-inter-classes.lisp
+
+
+confidence-interval-classes.lisp
+
+
+data-manipulation-commands.lisp
+
+
+defclaspcom.lisp
+
+
+define-icons.lisp
+
+
+defstat.lisp
+
+
+defsys.lisp
+78,81c78
+<      #-(or MCL lispworks)
+<      "clasp:interface;"
+<      #+(or MCL lispworks)
+<      (translate-logical-pathname "CLASP:INTERFACE;")
+---
+>       "clasp:interface;"
+84,87c81
+<  		      #-(or MCL lispworks)
+<  		      "clasp:interface;"
+< 		      #+(or MCL lispworks)
+<  		      (translate-logical-pathname "CLASP:INTERFACE;"))
+---
+> 		      #-MCL "clasp:interface;" #+MCL (translate-logical-pathname "clasp:interface;"))
+
+
+display.lisp
+
+
+file-commands.lisp
+197c197
+<     (let* ((result-subclasses (find-subclasses (find-class 'result)))
+---
+>      (let ((result-subclasses (find-subclasses (find-class 'result)))
+199,200c199,200
+< 	   (datasets-and-results-display (datasets-and-results-display
+< 					  clasp-frame)))
+---
+> 	   (error-handling-preferences (error-handling-preferences clasp-frame))
+> 	   (datasets-and-results-display (datasets-and-results-display clasp-frame)))
+227c227,238
+< 		 (with-accept-help ((:subhelp "You are being asked to enter where you would like CLASP datasets and results stored."))
+---
+> 		 (with-accept-help
+> 		  ((:subhelp "How do you want clasp to handle errors?"))
+> 		   (setf error-handling-preferences
+> 			 (accept (list 'subset #+clim-1 :catch-errors #+clim-2 :use-native-debugger
+> 				       #+(or lucid explorer) :trap-underflow-errors)
+> 				 :stream stream
+> 				 :prompt "Error handling"
+> 				 :default error-handling-preferences)))
+> 		 (terpri stream)
+> 		 (with-accept-help
+> 		  ((:subhelp "Where should datasets and results be displayed?"))
+> 		 (terpri stream)
+235a247,254
+> 		(setf (error-handling-preferences clasp-frame) error-handling-preferences)
+> 		#+clim-1
+> 		(setf clasp::*debug* (member :catch-errors error-handling-preferences))
+> 		#+lucid
+> 		(when (member user::floating-point-underflow user::supported-floating-point-conditions)
+> 		      (if (member :trap-underflow-errors error-handling-preferences)
+> 			  (pushnew user::floating-point-underflow (user::enabled-floating-point-traps))
+> 			(remove user::floating-point-underflow (user::enabled-floating-point-traps))))
+
+
+frame.lisp
+69,89c69
+<   (;;(x-selection :initform nil :accessor x-selection)
+<    ;;(y-selection :initform nil :accessor y-selection)
+<    ;;(map-with-cross-product :initform nil :accessor map-with-cross-product)
+<    (auto-open-types :initform
+< 		    #+ignore
+< 		    '(anova-two-way-table
+< 		      #+ignore result linear-regression-verbose-result
+< 		      linear-regression-brief-result #+ignore scheffe-table
+< 		      anova-one-way-table anova-one-way-result
+< 		      confidence-interval-result
+< 		      t-test-result
+< 		      #+ignore significance #+ignore scheffe-table-entry
+< 		      chi-square-result d-test-result graph graph-data-icon
+< 		      #+ignore column dataset)
+< 		    nil
+< 		    :accessor auto-open-types)
+<    (iconified-types :initform
+< 		    '(result scheffe-table significance scheffe-table-entry
+< 		      column dataset graph graph-data-icon)
+< 		    :accessor iconified-types)
+<    (datasets-and-results-display :type (member #-MCL :window :pane :none)
+---
+>   ((datasets-and-results-display :type (member #-MCL :window :pane :none)
+95a76
+>    (error-handling-preferences :initform (list #+clim-1 :catch-errors) :accessor error-handling-preferences)
+198,206d178
+< 
+< ;;; ---------------------------------------------------------------------------
+< 
+< (defmethod auto-open ((result result) &key force
+< 		      &allow-other-keys)
+<   (with-clasp-frame (clasp-frame)
+<     (with-slots (auto-open-types) clasp-frame
+<       (when (or force (member (type-of result) auto-open-types))
+< 	(open-it result :refresh t)))))
+
+
+graph-commands.lisp
+
+
+graphing-datasets.lisp
+
+
+history.lisp
+
+
+icon-defs.lisp
+
+
+icon.lisp
+
+
+lisp-presentations.lisp
+
+
+listener.lisp
+73a74,81
+>     #+clim-1
+>     (setf clasp::*debug* (member :catch-errors (error-handling-preferences frame)))
+>     #+lucid
+>     (if (member :trap-underflow-errors (error-handling-preferences frame))
+> 	(pushnew 'user::floating-point-underflow (user::enabled-floating-point-traps))
+>       (remove 'user::floating-point-underflow (user::enabled-floating-point-traps)))
+>     #+(or allegro lucid)
+>     (redisplay-frame-panes frame :force-p t) ;; Correct for menus not appearing at start-up - AC
+
+
+map-commands.lisp
+
+
+numeric-result-classes.lisp
+
+
+packages.lisp
+
+
+regression-classes.lisp
+
+
+sampling-commands.lisp
+
+
+significance-classes.lisp
+
+
+stat-commands.lisp
+
+
+test-commands.lisp
+
+
+transform-commands.lisp
+
+
+utilities.lisp
+
+

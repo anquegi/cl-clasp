@@ -1,0 +1,97 @@
+#+INFOJS_OPT: view:overview toc:t
+#+OPTIONS: toc:nil
+* CLASP & CLIP
+
+CLIP/CLASP is an online laboratory environment for the analysis of
+Artificial Intelligence programs.  Using CLIP/CLASP the experimenter
+can:
+	- collect and filter data while a program runs 
+	- define and automatically run experiments to evaluate a program's
+	  behavior in different conditions
+	- transform, filter and partition data in powerful ways
+	- examine data graphically and statistically 
+	- run parametric and computer-intensive tests
+
+This repository contains is a authorized fork of the original CLASP & CLISP obtained from https://www.cs.cmu.edu/Groups/AI/lang/lisp/code/math/clasp/  with the following goals in mind:
+  + Remove dependent libraries available from the Quicklisp repository
+  + Re-factor code to support Quicklisp packaging 
+  + Organize code into independent systems based on functional category
+  + Support for SBCL, CCL, LispWorks and Allegro Common Lisp
+  + Improve documentation
+  + Working integration with Arduino one board for collecting data
+  + Integration and tutorial for analysing data using emacs and org mode
+
+** Why I'm doing this
+
+I want to learn lisp, and the best way to learn a programming language is working in a project. I also like collectiong and analysing data so this code can give me the possibility of doing boths things. first working on a large project to mantain and learn reading awesome functions. And also recover this tool is an interesting challenge.
+
+** Acknowledgement
+
+I want just say that the merit of this project is for the original authors, I only want to put this great tool on the way again. Thanks to Dave Hart one of the original authors of this code for making this awesome tool  and for helping me in order to put this code online again. Also the team in Experimental Knowledge Systems Laboratory (listed at authors section).
+
+** Original Copying note
+
+Copyright (c) 1990-93 University of Massachusetts,
+Department of Computer and Information Science,
+Experimental Knowledge Systems Laboratory,
+Professor Paul Cohen, Director.
+Use, copying, modification, and distribution permitted.
+See copyright notice in load-clasp.lisp (below attached) for details.
+
+** Original copyright notice
+
+
+Copyright (c) 1990 - 1993 University of Massachusetts
+Department of Computer and Information Science
+Experimental Knowledge Systems Laboratory
+Professor Paul Cohen, Director.
+All rights reserved.
+
+Permission to use, copy, modify and distribute this software and its
+documentation is hereby granted without fee for non-commercial uses only 
+(not for resale), provided that the above copyright notice of EKSL, this 
+paragraph and the one following appear in all copies and in supporting 
+documentation.
+EKSL makes no representation about the suitability of this software for any
+purposes.  It is provided "AS IS", without express or implied warranties
+including (but not limited to) all implied warranties of merchantability
+and fitness for a particular purpose, and notwithstanding any other
+provision contained herein.  In no event shall EKSL be liable for any
+special, indirect or consequential damages whatsoever resulting from loss
+of use, data or profits, whether in an action of contract, negligence or
+other tortuous action, arising out of or in connection with the use or
+performance of this software, even if EKSL is
+advised of the possiblity of such damages.
+
+For more information write to clasp-support@cs.umass.edu
+
+** Author(s):   
+
+*** Original 
+
+David L. Westbrook
+Experimental Knowledge Systems Laboratory
+Paul R. Cohen, Principal Investigator
+David L. Westbrook, Systems Manager
+David M. Hart, Laboratory Manager
+Department of Computer Science
+University of Massachusetts
+Amherst, Massachusetts 01003.
+
+
+*** Current Branch Maintainer(s)/Authors(s):    
+
+Antonio Juan Querol Giner
+
+*** WAITING Contributors:
+  +  anyone that wants to help 
+
+** TODO Installation
+
+** TODO Documentation
+*** TODO User and API Documentation
+
+** Contributing
+All contributions are welcome. If the contribution is to resolve and problem with CLASP or CLIP, please open an issue in the github repository accompanied by a pull request. 
+If you would like to contribute new functionality, again open an issue at the CLASP or CLIP github repository, describe the proposed functionality and we will go from there. 
+If you are interesting in helping to maintain CLASP or CLIP, please contact me via email. 

@@ -1,0 +1,194 @@
+
+
+
+
+                        Release Notes
+                        for CLASP 1.3.2
+
+
+
+1   Platform
+
+
+This release requires Common Lisp, CLOS, CLIM and SciGraph from Bolt, Be-
+ranek and Newman (BBN). SciGraph is included in the distribution.
+
+
+   CLASP runs on all of the following platforms:
+ Hardware         Lisp           CLIM
+ DecStation       Allegro CL 4.1 1.1
+ DecStation       Lucid 4.0      1.1
+ Sun SparcStation Allegro CL 4.1 1.1
+ Sun SparcStation Lucid 4.1      1.1
+
+
+
+2   Support
+
+
+If you have any problems, questions, or suggestions, contact us at:
+
+                    clasp-support@cs.umass.edu
+
+
+
+3   Getting CLASP
+
+
+CLASP is available via anonymous ftp from ftp.cs.umass.edu.  It is in the
+directory pub/eksl/clasp. In addition to source distributions, the release notes
+for each version are available and the manual.
+   The manual describes them in more detail, but some of the changes from
+version 1.2 are listed below.
+
+
+
+4   Installation
+
+
+  1. Uncompress and unpack the tar file using the Unix uncompress and tar
+     facilities:
+
+     uncompress clasp-1.3.2.tar.Z
+     tar -xvf clasp-1.3.2.tar
+
+  2. If you want to customize the location of files (for instance, if you alrea*
+ *dy
+     have SciGraph and want to use that version,) edit the file clasp/clasp.tra*
+ *nslations.
+
+  3. From lisp, load the file clasp/compile-clasp.  That will compile and
+     load CLASP.
+
+
+
+                                 1
+
+
+
+
+5   Invocation
+
+
+  1. From lisp, load the file clasp/load-clasp. This will load CLASP. (This
+     step can be skipped immediately after compilation.)
+
+
+
+  2. Execute the function `clasp-interface:clasp,' which starts the system.
+
+
+
+6   Changes
+
+
+  1. Some error handling capabilities have been added and can be controlled
+     from the preferences menu. The first option is Use Native Debugger which
+     will pass errors occurring while in CLASPback to the underlying lisp
+     process.  The second is Trap Floating Point Underflow which will cause
+     floating point underflow errors to be signalled (instead of just having 0.0
+     substituted.)
+
+  2. Most of the commands which accept a variable as an argument will now al-
+     low a lisp symbol which has as its value a sequence of numbers to be typed
+     or selected. In addition, if a sequence of numbers is being displayed in t*
+ *he
+     clasp frame, that can also be selected (although sequences of numbers may
+     not be typed as arguments.)
+
+
+
+7   Known Problems
+
+
+   o When entering a lisp expression, clicking on a variable will insert its va*
+ *lue,
+     expressed as a list, into the expression.  This also occurs when entering
+     a partition clause (while executing the command :Partition Dataset) or a
+     transformation expression (while executing the command :User Defined),
+     which is unlikely to be the desired result. When entering these types of
+     expressions, the user must type the name of the desired variable. (Since
+     both commands work only on a single dataset, there is no problem with
+     variable names not being unique.)
+
+   o In linear regression's verbose output mode, the standard error of the in-
+     tercept is currently returned as nil.
+
+   o CLASP can't be compiled using Lucid's "production" compiler, because
+     the compiler's default versions of make-load-forms for some of our classes
+     are declared to be "too complicated" to compile.  Use the development
+     compiler instead.
+
+   o Deleting a dataset from which partitions have been made can cause data
+     loss in the partitions.
+
+
+
+                                 2
+
+
+
+
+o File I/O functions currently do only minimal error checking (with respect
+  to data being of the proper type, and the correct number of data elements
+  per line.) Files should be checked carefully to insure correct data input.
+  The proper file format is described in the manual, under Data Manipula-
+  tion in the Functions chapter.
+
+o All of the commands under the transform menu take only clasp variables as
+  their variable parameters, no lisp variables, no sequences. The reason for
+  this is that these commands perform the appropriate transformation on a
+  variable and then add the result to the variable's dataset as a new variable.
+  Only variables have datasets so only variables can be transformed. All of
+  the transformations are simple lisp expressions so it should be easy to
+  perform them in lisp on lisp objects, if that's what you want. For instance
+  if you want the ln of the lisp sequence A, you can use (mapcar (function
+  ln) a).
+
+
+
+  7.1   CLIM/interface problems
+
+
+o The interface sometimes encounters an error from X which it can't handle.
+  If CLASPseems frozen, check the shell or lisp process from which it is
+  being run, if an error has occurred, choose the restart which indicates
+  restarting clasp (usually continue or abort).
+
+o Long results (like Chi Square or Multiple Linear Regression) in the in-
+  teractor pane sometimes get erased because of an X refresh problem. To
+  correct this, either resize the Clasp frame or scroll the interactor pane
+  back one screen and then forward again.
+
+o If a dataset has been opened (i.e. contents are being displayed in a separate
+  window) and some change to the dataset occurs (such as deleting a variable
+  or renaming a variable), the change will not be reflected in the window
+  (although it will be reflected in the Datasets Pane.)
+
+o Under X, if windows which are created by CLASP are forcibly killed from
+  the window manager, then re-invoking CLASP from the same lisp session
+  will cause an error.  If this happens, type (clasp-interface:clasp t)
+  to recreate a root window for CLASP.
+
+
+
+  7.2   SciGraph problems
+
+
+o If you move an object on the graph (such as the title or legend) then
+  it looses its mouse sensitivity. To correct this either select redraw graph
+  from the main SciGraph menu (right click in the graph) or resize the graph
+  window (if it is in a window).
+
+
+
+                              3
+
+
+
+
+Thank you for your support.
+
+
+
+                              4

@@ -1,0 +1,440 @@
+dataset-fns.lisp
+145,150c145,151
+< 	(new-dataset #+ignore
+< 		     (format t "~%New dataset is named ~%Merge of ~{~a~^ ~}"
+< 			     (mapcar #'name datasets))
+< 		     (make-dataset :name
+< 				   (format nil "Merge of ~{~a~^ ~}"
+< 					   (mapcar #'name datasets)))))
+---
+> 	(new-dataset 
+> 	 #+ignore
+> 	 (format t "~%New dataset is named ~%Merge of ~{~a~^ ~}"
+> 		 (mapcar #'name datasets))
+> 	 (make-dataset :name
+> 		       (format nil "Merge of ~{~a~^ ~}"
+> 			       (mapcar #'name datasets)))))
+152,154c153,155
+<       (dolist (variable (dataset-variables dataset))
+< 	(unless (equal (name variable) 'row-number)
+< 	  (push dataset (gethash (name variable) variable-hash-table nil)))))
+---
+> 	    (dolist (variable (dataset-variables dataset))
+> 		    (unless (equal (name variable) 'row-number)
+> 			    (push dataset (gethash (name variable) variable-hash-table nil)))))
+161,164c162,168
+<       #+ignore
+<       (format t "~&(add-variable-to-dataset ~a ~a ~a)~%"
+< 	      new-dataset '() variable)
+<       (add-variable-to-dataset new-dataset '() (format nil "~a" variable)))
+---
+> 	    #+ignore
+> 	    (format t "~&(add-variable-to-dataset ~a ~a ~a)~%"
+> 		    new-dataset '() variable (gethash variable variable-hash-table))
+> 	    (push (add-variable-to-dataset new-dataset '() (format nil "~a" variable))
+> 		  (gethash variable variable-hash-table))
+> 	    #+ignore
+> 	    (format t "~a handled by ~a~%" variable (gethash variable variable-hash-table)))
+166,181c170,180
+<       #+ignore
+<       (format t
+< 	      "(add-rows-to-dataset ~a ~%~a ~%~a)~%"
+< 	      new-dataset
+< 	      (mapcar #'(lambda (row)
+< 			  (cons (name dataset) row))
+< 		      (dataset-to-rows dataset
+< 				       :columns
+< 				       (remove
+< 					'row-number
+< 					(dataset-variables dataset)
+< 					:key #'name :test #'equal)))
+< 	      (cons 'source
+< 		    (remove 'row-number
+< 			    (dataset-variables dataset)
+< 			    :key #'name :test #'equal)))
+---
+> 	    #+ignore
+> 	    (format t
+> 		    "(add-rows-to-dataset ~a ~%~a ~%~a)~%"
+> 		    new-dataset
+> 		    (mapcar #'(lambda (row)
+> 				(cons (name dataset) row))
+> 			    (dataset-to-rows dataset :columns (remove 'row-number (dataset-variables dataset)
+> 								      :key #'name :test #'equal)))
+> 		    (cons 'source
+> 			  (mapcar #'(lambda (x) (car (gethash (name x) variable-hash-table)))
+> 				  (remove 'row-number (dataset-variables dataset) :key #'name :test #'equal))))
+186,189c185,186
+< 	       (dataset-to-rows
+< 		dataset :columns (remove 'row-number
+< 					 (dataset-variables dataset)
+< 					 :key #'name :test #'equal)))
+---
+> 	       (dataset-to-rows dataset :columns (remove 'row-number (dataset-variables dataset)
+> 							 :key #'name :test #'equal)))
+191,193c188,189
+< 	     (remove 'row-number
+< 		     (dataset-variables dataset)
+< 		     :key #'name :test #'equal))))
+---
+> 	     (mapcar #'(lambda (x) (car (gethash (name x) variable-hash-table)))
+> 		     (remove 'row-number (dataset-variables dataset) :key #'name :test #'equal)))))
+
+
+defgeneric.lisp
+
+
+defs.lisp
+
+
+defsys.lisp
+
+
+density-fns.lisp
+
+
+errors.lisp
+
+
+exports.lisp
+
+
+find-critical.lisp
+
+
+intrinsic-mixins.lisp
+
+
+io-fns.lisp
+
+
+manipulation-fns.lisp
+122a123,125
+> 	       (pushnew x variable-list))
+> 	      ((and (or (symbolp x) (stringp x))
+> 		    (find x legal-variables :key #'name :test #'string-equal))
+124c127
+< 	  expression)
+---
+> 	expression)
+188c191
+< 		     old-dataset x variables
+---
+> 		     old-dataset (replace-variables-with-attributes x) variables
+196a200,209
+> (defun replace-variables-with-attributes (where-clause)
+>   (cond
+>    ((null where-clause)
+>     nil)
+>    ((listp where-clause)
+>     (mapcar #'replace-variables-with-attributes where-clause))
+>    ((typep where-clause 'clasp::variable)
+>     (car (clasp::variable-attribute where-clause)))
+>    (t where-clause)))
+> 
+213c226
+< 	    (second where-clause)
+---
+> 	    (name (second where-clause))
+222c235
+< 	    (second where-clause)
+---
+> 	    (name (second where-clause))
+229c242
+< 	    (second where-clause)))
+---
+> 	    (name (second where-clause))))
+233c246
+< 	    (second where-clause)
+---
+> 	    (name (second where-clause))
+244,245c257
+<       (setf partitioning-values (get-distinct-values partitioning-keys
+< 						     dataset))
+---
+>       (setf partitioning-values (get-distinct-values partitioning-keys dataset))
+248,249c260
+< 		    (replace-on-clause partitioning-values
+< 				       partition-clause temp-partition-clause))
+---
+> 		    (replace-on-clause partitioning-values partition-clause dataset temp-partition-clause))
+256,257c267
+<       (setf partitioning-values (get-distinct-values partitioning-keys
+< 						     dataset))
+---
+>       (setf partitioning-values (get-distinct-values partitioning-keys dataset))
+260,261c270
+< 		        (replace-on-clause partitioning-values
+< 					   partition-clause on-clause))
+---
+> 		        (replace-on-clause partitioning-values partition-clause dataset on-clause))
+263,265c272,273
+<       (setf temp-partition-clause (car (replace-on-clause
+< 					partitioning-values
+< 					temp-partition-clause on-clause))))))
+---
+>       (setf temp-partition-clause
+> 	    (car (replace-on-clause partitioning-values temp-partition-clause dataset on-clause))))))
+267c275
+< (defun replace-on-clause (key-values partition-clause
+---
+> (defun replace-on-clause (key-values partition-clause dataset
+276c284
+< 	  (make-new-on-clause on-clause key-value)
+---
+> 	  (make-new-on-clause on-clause key-value dataset)
+290,295c298,303
+< (defun make-new-on-clause (on-clause key-value)
+<   (let* ((variables (cdr on-clause))
+< 	 (variable-attrs
+< 	   (mapcar #'(lambda (x)
+< 		       (car (variable-attribute (get-variable x))))
+< 		   variables)))
+---
+> (defun make-new-on-clause (on-clause key-value dataset)
+>   (let* ((variables (mapcar #'(lambda (x) (get-variable x dataset)) (cdr on-clause)))
+> 	 #+ignore
+> 	 (variable-attrs (mapcar #'(lambda (x)
+> 				     (car (variable-attribute x)))
+> 				 variables)))
+297,300c305,308
+< 	(list '.==. (car variable-attrs) (car key-value))
+< 	(cons '.and. (mapcar #'(lambda (key-name key-value)
+< 				 (list '.==. key-name key-value))
+< 			     variable-attrs key-value)))))
+---
+> 	(list '.==. (car variables) (car key-value))
+>       (cons '.and. (mapcar #'(lambda (key-name key-value)
+> 			       (list '.==. key-name key-value))
+> 			   variables key-value)))))
+327,331c335,338
+<   (let ((distinct-values-hash (make-hash-table :test #'equal))
+< 	(all-rows (transpose (mapcar #'(lambda (x)
+< 					 (variable-value
+< 					  (get-variable x dataset))) key)))
+< 	distinct-values)
+---
+>   (let* ((variables (mapcar #'(lambda (x) (get-variable x dataset)) key))
+> 	 (distinct-values-hash (make-hash-table :test #'equal))
+> 	 (all-rows (dataset-to-rows dataset :columns variables))
+> 	 distinct-values)
+333c340
+<       (incf (gethash value distinct-values-hash 0)))
+---
+> 	    (incf (gethash value distinct-values-hash 0)))
+335c342
+< 		       (push key distinct-values)) distinct-values-hash)
+---
+> 		 (push key distinct-values)) distinct-values-hash)
+
+
+matrices.lisp
+
+
+matrix-fns.lisp
+
+
+packages.lisp
+
+
+parameters.lisp
+
+
+patches.lisp
+
+
+reader-macro.lisp
+
+
+regression-fns.lisp
+
+
+rtm-patches.lisp
+
+
+sampling-fns.lisp
+
+
+shortcuts.lisp
+68c68
+<     (list '+ (id variable) number)))
+---
+>     (list '+ (name variable) number)))
+73c73
+<     (list 'log (id variable))))
+---
+>     (list 'log (name variable))))
+78c78
+<     (list 'log (id variable) 10)))
+---
+>     (list 'log (name variable) 10)))
+89c89
+<     (list 'recode (id variable) (list (quote quote) old-values) 
+---
+>     (list 'recode (name variable) (list (quote quote) old-values) 
+95c95
+<    (list 'bin (id variable) (list (quote quote) limits)
+---
+>    (list 'bin (name variable) (list (quote quote) limits)
+
+
+statistical-fns.lisp
+1906,2049d1905
+< 		 (push key a-list))
+< 	     iv1-hash)
+<     (maphash #'(lambda (key value)
+< 		 (declare (ignore value))
+< 		 (push key b-list))
+< 	     cell)
+<     (setf a-list (sort a-list #'string-lessp :key #'(lambda (x) (if (symbolp x) (string x) (format nil "~a" x)))))
+<     (setf b-list (sort b-list #'string-lessp :key #'(lambda (x) (if (symbolp x) (string x) (format nil "~a" x)))))
+<     ;; Build the matrix by visiting each cell in each hash table and 
+<     ;; calculating the means, at the same time, calculate the
+<     ;; harmonic mean of the sample sizes.
+<     ;; The harmonic mean is given by the formula
+<     ;; ab/sum\{1/sij\} where ab is the number of rows times the number
+<     ;; of columns and sij is the number of elements in cell i,j
+<     ;; the within-groups-subtractand is calculated here because the
+<     ;; cell counts are discarded after the ab-matrix is calculated and
+<     ;; sij is in the denominator of the subtractand for the SS within
+<     ;; groups.
+<     (let (row-totals
+< 	  column-totals
+< 	  (grand-total 0)
+< 	  squared-row-totals
+< 	  squared-column-totals
+< 	  squared-grand-total
+< 	  ab-matrix
+< 	  a-value b-value)
+<       (setf ab-matrix (make-array `(,num-b ,num-a) :initial-element 0))
+<       (setf a-count 0)
+<       (dolist (a-key a-list)
+< 	(setf a-value (gethash a-key iv1-hash))
+< 	(when (/= num-b (hash-table-count a-value))
+< 	  (error 'missing-cell))
+< 	(setf b-count 0)
+< 	(dolist (b-key b-list)
+< 	  (setf b-value (gethash b-key a-value))
+< 	  (when (not (member b-key b-list))
+< 	    (error 'missing-cell))
+< 	  (setf (aref ab-matrix b-count a-count)
+< 	    (apply #'/ b-value))
+< 	  (incf harmonic-mean (/ 1 (second b-value)))
+< 	  (incf within-groups-subtractand
+< 		(/ (square (first b-value))
+< 		   (second b-value)))
+< 	  (incf b-count))
+< 	(incf a-count))
+<       (setf harmonic-mean (* num-a num-b (/ 1 harmonic-mean)))
+<       (setf row-totals (make-list num-b :initial-element 0))
+<       (setf column-totals (make-list num-a :initial-element 0))
+<       (dotimes (a num-a)
+< 	(dotimes (b num-b)
+< 	  (setf cell (aref ab-matrix b a))
+< 	  (incf (nth b row-totals) cell)
+< 	  (incf (nth a column-totals) cell)
+< 	  (incf sum-squared-cells (square cell))))
+<       (setf grand-total (reduce #'+ row-totals))
+<       (setf squared-row-totals (reduce #'+ (mapcar #'square row-totals)))
+<       (setf squared-column-totals (reduce #'+ (mapcar #'square column-totals)))
+<       (setf squared-grand-total (square grand-total))
+<       ;; compute the anova values from the summaries caculated above and
+<       ;; return them in an anova table-like list.
+<       (let* ((ab (* num-a num-b))
+< 	     (abs2 (reduce #'+ (mapcar #'square dv)))
+< 	     (ssa (* harmonic-mean (- (/ squared-column-totals num-b)
+< 				      (/ squared-grand-total ab))))
+< 	     (ssb (* harmonic-mean (- (/ squared-row-totals num-a)
+< 				      (/ squared-grand-total ab))))
+< 	     (ssaxb (* harmonic-mean
+< 		       (+ (- sum-squared-cells
+< 			     (/ squared-column-totals num-b)
+< 			     (/ squared-row-totals num-a))
+< 			  (/ squared-grand-total ab))))
+< 	     (sse (- abs2 within-groups-subtractand))
+< 	     (dfa (- num-a 1))
+< 	     (dfb (- num-b 1))
+< 	     (dfaxb (* dfa dfb))
+< 	     (dfe (- (length dv) ab))
+< 	     (msa (/ ssa dfa))
+< 	     (msb (/ ssb dfb))
+< 	     (msaxb (/ ssaxb dfaxb))
+< 	     (mse (/ sse dfe))
+< 	     (fa (/ msa mse))
+< 	     (fb (/ msb mse))
+< 	     (faxb (/ msaxb mse))
+< 	     (pa (f-significance (float fa) dfa dfe t))
+< 	     (pb (f-significance (float fb) dfb dfe t))
+< 	     (paxb (f-significance (float faxb) dfaxb dfe))
+< 	     (dft (+ dfa dfb dfaxb dfe))
+< 	     (sst (+ ssa ssb ssaxb sse)))
+< 	(values `((,dfaxb ,SSAxB ,MSAxB ,FAxB ,pAxB)
+< 		  (,dfa ,SSA ,MSA ,FA ,pA)
+< 		  (,dfb ,SSB ,MSB ,FB ,pB)
+< 		  (,dfe ,SSE ,MSE)
+< 		  (,dfT ,SST))
+< 		ab-matrix row-totals column-totals grand-total
+< 		a-list b-list)))))
+< 
+< #+ignore
+< (defun anova-two-way-variables-unequal-cell-sizes (dv iv1 iv2)
+<   "Calculates the analysis of variance when there are two factors that may
+< affect the dependent variable, specifically `iv1' and `iv2.'
+< 
+< The result of the analysis is an anova-table, as described in the manual.  This
+< function differs from `anova-two-way-groups' only in its input representation.
+< See the manual for further discussion of analysis of variance.  If you use
+< `print-anova-table,' the row effect is `iv1' and the column effect is `iv2.'"
+<   (declare (values ((dfaxb SSAxB MSAxB FAxB pAxB)
+< 		    (dfa   SSA   MSA   FA   pA)
+< 		    (dfb   SSB   MSB   FB   pB)
+< 		    (dfe   SSE   MSE)
+< 		    (dfT   SST))
+< 		   ab-matrix row-totals column-totals grand-total
+< 		   a-labels b-labels))
+<   (let ((iv1-hash (make-hash-table))
+< 	iv2-hash cell
+< 	num-a num-b a-count b-count
+< 	(harmonic-mean 0)
+< 	(within-groups-subtractand 0)
+< 	(sum-squared-cells 0)
+< 	a-list b-list)
+<     ;;accumulate cell summations
+<     ;; in the following a refers to columns, b to rows
+<     ;; put each value in a nested hash table, selected by a and b
+<     ;; the cells contain the sum of elements and the number of elements
+<     (loop
+< 	for a in iv1
+< 	for b in iv2
+< 	for c in dv
+< 	do
+< 	  (setf iv2-hash (gethash a iv1-hash))
+< 	  (when (null iv2-hash)
+< 	    (setf iv2-hash (make-hash-table))
+< 	    (setf (gethash a iv1-hash) iv2-hash))
+< 	  (setf cell (gethash b iv2-hash))
+< 	  (when (null cell)
+< 	    (setf cell (make-list 2 :initial-element 0))
+< 	    (setf (gethash b iv2-hash) cell))
+< 	  (incf (first cell) c)
+< 	  (incf (second cell)))
+<     ;; get the number of rows and columns and build the column-list
+<     (setf num-a (hash-table-count iv1-hash))
+<     (setf cell (gethash (car iv1) iv1-hash))
+<     (setf num-b (hash-table-count cell))
+<     (maphash #'(lambda (key value)
+< 		 (declare (ignore value))
+
+
+super-intrinsic-mixins.lisp
+
+
+translation-fns.lisp
+
+
+utilities.lisp
+
+
+vector-fns.lisp
+
+
