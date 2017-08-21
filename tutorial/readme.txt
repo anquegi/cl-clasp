@@ -2,9 +2,10 @@ This directory contains slides used in the October 9, 1993 Rome Lab
 Clip/Clasp tutorial.  There are two files with CLASP slides and a
 directory with CLIP slides.
 
+In the clasp directory 
+
 CLASP-tutorial-slides.ps	- Using clasp as a statistical package
 clasp-system-slides.ps		- Clasp's programming interface
-clip				- Directory with clip slides
 
 In the clip directory
 
