@@ -1,0 +1,8 @@
+(in-package :cl-user)
+(defpackage clip-test
+  (:use :cl
+        :clip
+        :prove)
+(in-package :clip-test)
+
+;;; blah blah blah
