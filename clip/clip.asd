@@ -17,9 +17,19 @@
   :license "MIT"
   :components ((:module "src"
                 :components
-                ((:file "" :depends-on (""))
-                 (:file "" :depends-on ("" ""))
-                 (:file "")
-                 (:file ""))))
-  :description "Common Lisp Instrumentation Package."
-:in-order-to ((test-op (test-op ningle-test))))
+                (:file "packages")
+                (:file "utilities" :depends-on ("packages"))
+                (:file "super-intrinsic-mixins" :depends-on ("packages"))
+                (:file "time-definitions" :depends-on ("packages"))
+                (:file "macros" :depends-on ("packages"))
+                (:file "parameters" :depends-on ("packages"))
+                (:file "intrinsic-mixins" :depends-on ("packages"))
+                (:file "class-defs" :depends-on ("packages"))
+                (:file "instrumentation" :depends-on ("packages"))
+                (:file "defclip" :depends-on ("packages"))
+                (:file "simulator" :depends-on ("packages"))
+                (:file "experiment-runner" :depends-on ("packages"))
+                (:file "standard-clips" :depends-on ("packages"))
+                (:file "define-experiment" :depends-on ("packages"))))
+  :description "CLIP Common Lisp Instrumentation Package."
+  :in-order-to ((test-op (test-op ningle-test))))

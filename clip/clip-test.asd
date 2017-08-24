@@ -11,6 +11,7 @@
 (defsystem clip-test
   :author "Antonio Juan Querol Giner"
   :license "MIT"
+  :description "Tests for CLIP, which is a Common Lisp Instrumentation Package."
   :depends-on (:clip
                :prove)
   :components ((:module "t"
