@@ -82,7 +82,7 @@
 
 ;;;----------------------------------------------------------------------------
 
-(defvar *base-time* (time-parser:parse-universal-time *base-time-string*)
+(defvar *base-time* (lambda.time:parse-universal-time *base-time-string*)
   "The time at which we begin simulating. In universal-time units.")
 
 (defvar *elapsed-time* 0
@@ -121,9 +121,9 @@
           (etypecase time-spec
             (fixnum time-spec)
             (string (if interval-p
-                      (seconds->internal-time (time-parser:parse-interval-or-never time-spec))
+                      (seconds->internal-time (lambda.time:parse-interval-or-never time-spec))
                       (seconds->internal-time
-                        (- (time-parser:parse-universal-time time-spec 0 nil T base-time)
+                        (- (lambda.time:parse-universal-time time-spec 0 nil T base-time)
                            *base-time*))))
             (cons (apply #'parse-time-specifier
                          (first time-spec)

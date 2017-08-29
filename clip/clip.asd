@@ -13,11 +13,22 @@
 
 (defsystem clip
   :version "1.4.0"
-  :author ""
-  :license "MIT"
+  :author "David L. Westbrook
+Experimental Knowledge Systems Laboratory
+Paul R. Cohen, Principal Investigator
+David L. Westbrook, Systems Manager
+David M. Hart, Laboratory Manager
+Department of Computer Science
+University of Massachusetts0
+Amherst, Massachusetts 01003."
+  :maintainer "Antonio Juan Querol <antonio.querol@cuaqea.com>"
+  :homepage ""
+  :bug-tracker ""
+  :source-control (:git "")
+  :license "TODO"
+  :depends-on (:lambda.time)
   :components ((:module "src"
-                :components
-                (:file "packages")
+                :components ((:file "packages")
                 (:file "utilities" :depends-on ("packages"))
                 (:file "super-intrinsic-mixins" :depends-on ("packages"))
                 (:file "time-definitions" :depends-on ("packages"))
@@ -30,6 +41,6 @@
                 (:file "simulator" :depends-on ("packages"))
                 (:file "experiment-runner" :depends-on ("packages"))
                 (:file "standard-clips" :depends-on ("packages"))
-                (:file "define-experiment" :depends-on ("packages"))))
+                (:file "define-experiment" :depends-on ("packages")))))
   :description "CLIP Common Lisp Instrumentation Package."
   :in-order-to ((test-op (test-op ningle-test))))

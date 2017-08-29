@@ -43,7 +43,7 @@
 ;;; --*--
 ;;; ***************************************************************************
 
-(defpackage CLIP
+(defpackage :clip
   (:use :cl)
   (:export "DEFCLIP"
            "DEFINE-EXPERIMENT"
@@ -58,11 +58,11 @@
            "*DATA-SEPARATOR-CHARACTER*"
            "*OUTPUT-FORMAT*"
            "*CURRENT-EXPERIMENT*")
-  (:nicknames '("CLIPS")))
+  (:nicknames :clips))
 
-(defpackage CLIP-USER
+(defpackage :clip-user
   (:use :cl-user
-        :CLIP))
+        :clip))
 
 ;;; ***************************************************************************
 ;;; EOF
