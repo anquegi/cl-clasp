@@ -26,7 +26,8 @@ Amherst, Massachusetts 01003."
   :bug-tracker ""
   :source-control (:git "")
   :license "TODO"
-  :depends-on (:lambda.time)
+  :depends-on (:lambda.time
+               :extended-lisp)
   :components ((:module "src"
                 :components ((:file "packages")
                 (:file "utilities" :depends-on ("packages"))
@@ -43,4 +44,4 @@ Amherst, Massachusetts 01003."
                 (:file "standard-clips" :depends-on ("packages"))
                 (:file "define-experiment" :depends-on ("packages")))))
   :description "CLIP Common Lisp Instrumentation Package."
-  :in-order-to ((test-op (test-op ningle-test))))
+  :in-order-to ((test-op (test-op clip-test))))

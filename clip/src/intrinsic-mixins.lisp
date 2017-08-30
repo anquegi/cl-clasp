@@ -173,8 +173,8 @@
 (defmethod find-instances ((class standard-class))
   (let ((subclasses-examined-so-far nil))
     (labels ((grab-instances (class)
-	       (let ((subclasses (class-direct-subclasses
-                                  class)))
+               (let ((subclasses #-SBCL(class-direct-subclasses class)
+                                 #+SBCL(sb-pcl:class-direct-subclasses class)))
 		 (unless (member class subclasses-examined-so-far)
 		   (push class subclasses-examined-so-far)
 		   (cond ((null subclasses)

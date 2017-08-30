@@ -44,7 +44,8 @@
 ;;; ***************************************************************************
 
 (defpackage :clip
-  (:use :cl)
+  (:use :cl
+        #+SBCL :sb-pcl)
   (:export "DEFCLIP"
            "DEFINE-EXPERIMENT"
            "DEFINE-SIMULATOR"
