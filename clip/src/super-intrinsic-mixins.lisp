@@ -87,5 +87,20 @@
 	   ((class-prototype basic-class) (superclass standard-class))
   t)
 
+#+SBCL
+(defmethod sb-mop:validate-superclass
+    ((class-prototype named-class) (superclass basic-class))
+  t)
+
+#+SBCL
+(defmethod sb-mop:validate-superclass
+    ((class-prototype named-class) (superclass standard-class))
+  t)
+
+#+SBCL
+(defmethod sb-mop:validate-superclass
+    ((class-prototype basic-class) (superclass standard-class))
+  t)
+
 ;;; ***************************************************************************
 ;;; EOF

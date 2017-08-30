@@ -26,6 +26,7 @@ Amherst, Massachusetts 01003."
   :bug-tracker ""
   :source-control (:git "")
   :license "TODO"
+  :depends-on (:lambda.time)
   :components ((:module "src"
                 :components ((:file "packages")
                 (:file "utilities" :depends-on ("packages"))
