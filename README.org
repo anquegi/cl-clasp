@@ -27,7 +27,7 @@ I want to learn lisp, and the best way to learn a programming language is workin
 
 ** Acknowledgement
 
-I want just say that the merit of this project is for the original authors, I only want to put this great tool on the way again. Thanks to Dave Hart one of the original authors of this code for making this awesome tool  and for helping me in order to put this code online again. Also the team in Experimental Knowledge Systems Laboratory (listed at authors section).
+I want just say that the merit of this project goes for the original authors, I only want to put this great tool on the way again. Thanks to Dave Hart one of the original authors of this code for making this awesome tool  and for helping me in order to put this code online again. Also the team in Experimental Knowledge Systems Laboratory (listed at authors section).
 
 ** Original Copying note
 
