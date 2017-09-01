@@ -4,14 +4,14 @@
 |#
 
 (in-package :cl-user)
-(defpackage ningle-test-asd
+(defpackage clip-test-asd
   (:use :cl :asdf))
-(in-package :ningle-test-asd)
+(in-package :clip-test-asd)
 
 (defsystem clip-test
   :author "Antonio Juan Querol Giner"
   :license "MIT"
-  :description "Tests for CLIP, which is a Common Lisp Instrumentation Package."
+  :description "Tests for CLIP, translate demos into tests"
   :depends-on (:clip
                :prove)
   :components ((:module "t"

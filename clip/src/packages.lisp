@@ -62,7 +62,7 @@
   (:nicknames :clips))
 
 (defpackage :clip-user
-  (:use :cl-user
+  (:use :cl
         :clip))
 
 ;;; ***************************************************************************

@@ -2,7 +2,7 @@
 ;;;; *-* Last-edit: Tuesday, October 26, 1993  16:27:20; Edited-By: Westy *-* 
 
 
-(in-package :USER)
+(in-package :clip-user)
 
 #-Explorer
 (defun do-compile-and-load ()
