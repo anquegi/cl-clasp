@@ -25,7 +25,7 @@
 ;;; * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ;;; --*--
 
-(in-package #+CLTL2 clip-user #-CLTL2 'clip-user)
+(in-package :clip-user)
 
 ;;; --*--
 ;;; ***************************************************************************
@@ -71,7 +71,6 @@
 (run-experiment 'simple-agent-experiment-1 :output-file #+Explorer "ed-buffer:data.clasp")
 
 |#
-  
 ;;; ***************************************************************************
 ;;; EOF
 

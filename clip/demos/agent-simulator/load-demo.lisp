@@ -2,24 +2,15 @@
 ;;;; *-* Last-edit: Friday, October 22, 1993  13:08:47; Edited-By: Westy *-* 
 
 
-(in-package :USER)
+(in-package :clip-user)
 
-#-Explorer
 (defun do-load ()
   (flet ((do-file (name)
 	    (let ((binary (make-pathname 
 			    :directory `(,@(or (pathname-directory (clip-load-pathname)) '(:RELATIVE))
-					   #+lispworks3.1 "bin-lispworks3.1"
-					   #+lispworks3.2 "bin-lispworks3.2"
-					   #+lucid "bin-lucid"
-					   #+(and allegro sparc) "bin-allegro-sparc"
-					   #+(and allegro mips)  "bin-allegro-mips")
+					   #+SBCL "bin-sbcl")
 			    :defaults (merge-pathnames name (clip-load-pathname))
-			    :type #+(and lispworks sun4)   "wfasl"
-			          #+(and lispworks alpha) "afasl"
-                                  #+allegro "fasl"
-                                  #+(and lucid sparc) "sbin"
-                                  #+(and lucid mips) "mbin")))
+			    :type #+SBCL "fasl")))
 	      (load binary))))
     (do-file "generic-simulator")
     (do-file "agent-simulator")
@@ -28,17 +19,5 @@
     (do-file "agent-experiment")
     ))
 
-#-Explorer
-(do-load)
 
-#+Explorer
-(ticl::defsystem agent-experiment-demo
-  (:pathname-default "clip:top.demos.agent-simulator;")
-  (:compile-load-modules
-    ("generic-simulator"
-     "agent-simulator"
-     "agent-experiment")))
-
-#+Explorer 
-(make-system :AGENT-EXPERIMENT-DEMO :noconfirm)
 
